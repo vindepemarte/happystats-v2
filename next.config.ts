@@ -26,6 +26,7 @@ export default withPWA({
   dest: "public",
   register: true,
   skipWaiting: true,
+  clientsClaim: true, // The new service worker takes control of the page immediately
   disable: false, // Enable PWA in development for testing
   runtimeCaching: [
     {
