@@ -19,6 +19,8 @@ COPY . .
 # Set environment variables for build
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+ENV NEXTAUTH_SECRET=build-time-secret-will-be-replaced-at-runtime
+ENV DATABASE_URL=postgresql://build:build@localhost:5432/build
 
 # Build the application
 RUN npm run build

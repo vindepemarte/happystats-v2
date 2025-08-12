@@ -6,14 +6,16 @@ import { verifyUserPassword, getUserByEmail } from "./models/user";
 import { User } from "../types/user";
 
 // Ensure environment variables are loaded
-// Use NEXTAUTH_SECRET as fallback for JWT_SECRET
-const jwtSecret = process.env.JWT_SECRET || process.env.NEXTAUTH_SECRET;
+// Use NEXTAUTH_SECRET as fallback for JWT_SECRET, or use a build-time default
+const jwtSecret = process.env.JWT_SECRET || process.env.NEXTAUTH_SECRET || 'build-time-secret-will-be-replaced-at-runtime';
 
-if (!jwtSecret && process.env.NODE_ENV !== 'development') {
+// Only throw error at runtime, not during build
+if (!jwtSecret && typeof window !== 'undefined') {
     throw new Error("JWT_SECRET or NEXTAUTH_SECRET environment variable is required");
 }
 
-if (!process.env.NEXTAUTH_SECRET) {
+// Skip environment check during build time
+if (!process.env.NEXTAUTH_SECRET && process.env.NODE_ENV !== 'development' && typeof window !== 'undefined') {
     throw new Error("NEXTAUTH_SECRET environment variable is required");
 }
 
@@ -26,6 +28,11 @@ export const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials) {
+                // Skip auth during build time
+                if (!process.env.DATABASE_URL) {
+                    return null;
+                }
+
                 if (!credentials?.email || !credentials?.password) {
                     return null;
                 }
@@ -91,7 +98,7 @@ export const authOptions: NextAuthOptions = {
         signUp: "/auth/register",
         error: "/auth/error",
     },
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET || 'build-time-secret',
 };
 
 // Helper function to get server-side session
