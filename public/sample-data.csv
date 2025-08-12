@@ -1,0 +1,13 @@
+measurement,date,name,category
+10.5,2024-01-01,Morning Weight,Health
+10.3,2024-01-02,Morning Weight,Health
+10.7,2024-01-03,Morning Weight,Health
+10.2,2024-01-04,Morning Weight,Health
+150,2024-01-01,Daily Steps,Fitness
+200,2024-01-02,Daily Steps,Fitness
+180,2024-01-03,Daily Steps,Fitness
+220,2024-01-04,Daily Steps,Fitness
+8,2024-01-01,Hours of Sleep,Health
+7.5,2024-01-02,Hours of Sleep,Health
+8.5,2024-01-03,Hours of Sleep,Health
+7,2024-01-04,Hours of Sleep,Health
