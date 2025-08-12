@@ -6,8 +6,11 @@ import { verifyUserPassword, getUserByEmail } from "./models/user";
 import { User } from "../types/user";
 
 // Ensure environment variables are loaded
-if (!process.env.JWT_SECRET) {
-    throw new Error("JWT_SECRET environment variable is required");
+// Use NEXTAUTH_SECRET as fallback for JWT_SECRET
+const jwtSecret = process.env.JWT_SECRET || process.env.NEXTAUTH_SECRET;
+
+if (!jwtSecret && process.env.NODE_ENV !== 'development') {
+    throw new Error("JWT_SECRET or NEXTAUTH_SECRET environment variable is required");
 }
 
 if (!process.env.NEXTAUTH_SECRET) {
@@ -52,7 +55,7 @@ export const authOptions: NextAuthOptions = {
         maxAge: 30 * 24 * 60 * 60, // 30 days
     },
     jwt: {
-        secret: process.env.JWT_SECRET,
+        secret: jwtSecret,
         maxAge: 30 * 24 * 60 * 60, // 30 days
     },
     callbacks: {

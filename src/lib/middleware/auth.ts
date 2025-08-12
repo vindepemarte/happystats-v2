@@ -11,7 +11,7 @@ export async function withAuth(
     // Get the token from the request
     const token = await getToken({ 
       req: request, 
-      secret: process.env.JWT_SECRET 
+      secret: process.env.JWT_SECRET || process.env.NEXTAUTH_SECRET
     });
 
     if (!token) {
@@ -67,7 +67,7 @@ export async function getUserFromToken(request: NextRequest) {
   try {
     const token = await getToken({ 
       req: request, 
-      secret: process.env.JWT_SECRET 
+      secret: process.env.JWT_SECRET || process.env.NEXTAUTH_SECRET
     });
 
     if (!token) {
