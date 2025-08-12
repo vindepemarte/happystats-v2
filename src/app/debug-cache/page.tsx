@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/components/ui/Button';
 
 export default function DebugCachePage() {
     const [status, setStatus] = useState<string>('');
@@ -94,25 +93,40 @@ export default function DebugCachePage() {
                 )}
 
                 <div className="space-y-2">
-                    <Button onClick={clearAllCaches} className="w-full">
+                    <button
+                        onClick={clearAllCaches}
+                        className="w-full bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+                    >
                         Clear All Caches
-                    </Button>
+                    </button>
 
-                    <Button onClick={unregisterServiceWorkers} variant="secondary" className="w-full">
+                    <button
+                        onClick={unregisterServiceWorkers}
+                        className="w-full bg-gray-600 text-white px-4 py-3 rounded-lg hover:bg-gray-700 transition-colors"
+                    >
                         Unregister All Service Workers
-                    </Button>
+                    </button>
 
-                    <Button onClick={registerDebugServiceWorker} variant="outline" className="w-full">
+                    <button
+                        onClick={registerDebugServiceWorker}
+                        className="w-full bg-green-600 text-white px-4 py-3 rounded-lg hover:bg-green-700 transition-colors"
+                    >
                         Register Debug Service Worker
-                    </Button>
+                    </button>
 
-                    <Button onClick={forceReload} variant="outline" className="w-full">
+                    <button
+                        onClick={forceReload}
+                        className="w-full bg-orange-600 text-white px-4 py-3 rounded-lg hover:bg-orange-700 transition-colors"
+                    >
                         Force Reload
-                    </Button>
+                    </button>
 
-                    <Button onClick={hardReload} variant="outline" className="w-full">
+                    <button
+                        onClick={hardReload}
+                        className="w-full bg-red-600 text-white px-4 py-3 rounded-lg hover:bg-red-700 transition-colors"
+                    >
                         Hard Reload with Cache Bust
-                    </Button>
+                    </button>
                 </div>
 
                 <div className="bg-yellow-50 p-4 rounded text-sm">
