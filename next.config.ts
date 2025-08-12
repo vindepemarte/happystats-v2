@@ -28,11 +28,8 @@ export default withPWA({
   skipWaiting: true,
   clientsClaim: true, // The new service worker takes control of the page immediately
   disable: false, // Enable PWA in development for testing
-  // Force cache refresh by updating the cache name with timestamp
-  workboxOptions: {
-    cacheId: `happystats-${Date.now()}`,
-    cleanupOutdatedCaches: true,
-  },
+  cacheId: `happystats-${Date.now()}`, // Force cache refresh by updating the cache name with timestamp
+  cleanupOutdatedCaches: true,
   runtimeCaching: [
     {
       urlPattern: /^https:\/\/fonts\.(?:gstatic)\.com\/.*/i,
