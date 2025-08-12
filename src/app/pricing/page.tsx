@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { SUBSCRIPTION_TIERS } from '@/lib/stripe';
+import { SUBSCRIPTION_TIERS } from '../../lib/stripe';
 
 export const metadata: Metadata = {
   title: 'Pricing - HappyStats',
