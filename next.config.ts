@@ -11,6 +11,9 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   
+  // Force static optimization and ensure CSS is served
+  output: 'standalone',
+  
   // Image optimization configuration
   images: {
     formats: ['image/webp', 'image/avif'],
