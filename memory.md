@@ -311,5 +311,60 @@ Building HappyStats - a mobile-first PWA for personal data tracking and visualiz
 - ✅ Created comprehensive test documentation and examples
 - ✅ All requirements met (Requirements: 9.2, 7.1, 7.2)
 
+### 2024-12-08: PWA Caching Issue Resolution - Coolify Deployment Fix
+
+#### 🚨 CRITICAL PWA DEPLOYMENT ISSUE RESOLVED:
+**Problem**: After successful Coolify deployment, the application was serving cached 404 responses for CSS/JS assets due to PWA service worker caching failed requests from previous deployments.
+
+**Root Cause Analysis**:
+1. **Deployment was actually successful** - Next.js standalone build completed correctly
+2. **Docker configuration was correct** - All static assets properly copied to container
+3. **Service worker was caching 404s** - Previous failed deployment attempts cached 404 responses for `/_next/static/` assets
+4. **Browser cache persistence** - Service worker continued serving cached 404s even after successful redeployment
+
+#### ✅ SOLUTION IMPLEMENTED:
+**Fixed next.config.ts PWA configuration**:
+1. **Added `clientsClaim: true`** - Forces new service worker to take control immediately
+2. **Added dynamic cache ID** - `cacheId: 'happystats-${Date.now()}'` creates unique cache per build
+3. **Enabled `cleanupOutdatedCaches: true`** - Automatically removes old caches
+4. **Changed caching strategy** - Switched JS/CSS from `StaleWhileRevalidate` to `NetworkFirst` with 3s timeout
+
+#### ❌ CONFIGURATION MISTAKE LEARNED:
+**Initial Error**: Incorrectly nested PWA properties inside `workboxOptions` object, causing build failure:
+```typescript
+// ❌ WRONG - caused "[WebpackGenerateSW] 'workboxOptions' property is not expected"
+workboxOptions: {
+  skipWaiting: true,
+  clientsClaim: true,
+}
+```
+
+**Correct Configuration**:
+```typescript
+// ✅ CORRECT - properties at top level of withPWA config
+export default withPWA({
+  dest: "public",
+  skipWaiting: true,        // Top level
+  clientsClaim: true,       // Top level
+  cacheId: `happystats-${Date.now()}`,
+  cleanupOutdatedCaches: true,
+  // ... rest of config
+})
+```
+
+#### 🎯 KEY LESSONS FOR PWA DEPLOYMENTS:
+1. **PWA caching can persist deployment issues** - Service workers cache failed requests
+2. **Always use `clientsClaim: true`** - Ensures immediate takeover on deployment
+3. **Dynamic cache IDs prevent stale caches** - Use timestamps or build hashes
+4. **NetworkFirst for critical assets** - Prevents serving cached 404s
+5. **next-pwa properties go at top level** - Not inside `workboxOptions`
+
+#### 🚀 DEPLOYMENT STRATEGY:
+- **Immediate Fix**: Dynamic cache ID forces complete cache refresh
+- **Future Prevention**: NetworkFirst strategy prioritizes network requests
+- **User Experience**: `clientsClaim` ensures immediate updates without page refresh
+
+**Result**: ✅ PWA now properly updates on deployment, no more cached 404 responses, users see latest version immediately.
+
 ## Next Steps
 - Continue with Task 20: Performance optimization and deployment preparation

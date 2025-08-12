@@ -14,6 +14,29 @@ const nextConfig: NextConfig = {
   // Force static optimization and ensure CSS is served
   output: 'standalone',
   
+  // Add cache-busting headers
+  async headers() {
+    return [
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate',
+          },
+          {
+            key: 'Pragma',
+            value: 'no-cache',
+          },
+          {
+            key: 'Expires',
+            value: '0',
+          },
+        ],
+      },
+    ];
+  },
+  
   // Image optimization configuration
   images: {
     formats: ['image/webp', 'image/avif'],
@@ -24,11 +47,11 @@ const nextConfig: NextConfig = {
 
 export default withPWA({
   dest: "public",
-  register: true,
+  register: false, // Temporarily disable PWA registration
   skipWaiting: true,
-  clientsClaim: true, // The new service worker takes control of the page immediately
-  disable: false, // Enable PWA in development for testing
-  cacheId: `happystats-${Date.now()}`, // Force cache refresh by updating the cache name with timestamp
+  clientsClaim: true,
+  disable: true, // Completely disable PWA for debugging
+  cacheId: `happystats-v3-${Date.now()}`, // Force complete cache refresh with version bump
   cleanupOutdatedCaches: true,
   runtimeCaching: [
     {
