@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { testConnection } from '@/lib/database';
+import { testConnection } from '../../../lib/database';
 
 // Readiness probe for Kubernetes/Docker deployments
 export async function GET() {

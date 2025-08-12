@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { healthCheck } from '@/lib/database';
-import { isProduction } from '@/lib/production-config';
+import { healthCheck } from '../../../lib/database';
+import { isProduction } from '../../../lib/production-config';
 
 // Health check endpoint for monitoring and load balancers
 export async function GET() {

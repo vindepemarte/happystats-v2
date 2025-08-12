@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { query } from '@/lib/database';
-import { isProduction } from '@/lib/production-config';
+import { query } from '../../../lib/database';
+import { isProduction } from '../../../lib/production-config';
 
 // Metrics endpoint for monitoring (protected in production)
 export async function GET(request: Request) {
