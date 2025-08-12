@@ -1,3 +1,5 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
 # Dependencies
 node_modules
 npm-debug.log*
@@ -56,7 +58,9 @@ README.md
 
 # Development files
 vitest.config.ts
-tsconfig.json
+# NOTE: Do NOT ignore these files — they are required for production builds
+# tsconfig.json
 eslint.config.mjs
-tailwind.config.ts
-postcss.config.mjs
+# NOTE: Do NOT ignore Tailwind/PostCSS config files — they are required for production CSS build
+# tailwind.config.ts
+# postcss.config.mjs
