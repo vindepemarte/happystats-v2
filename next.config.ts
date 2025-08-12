@@ -28,6 +28,11 @@ export default withPWA({
   skipWaiting: true,
   clientsClaim: true, // The new service worker takes control of the page immediately
   disable: false, // Enable PWA in development for testing
+  // Force cache refresh by updating the cache name with timestamp
+  workboxOptions: {
+    cacheId: `happystats-${Date.now()}`,
+    cleanupOutdatedCaches: true,
+  },
   runtimeCaching: [
     {
       urlPattern: /^https:\/\/fonts\.(?:gstatic)\.com\/.*/i,
@@ -86,24 +91,26 @@ export default withPWA({
     },
     {
       urlPattern: /\.(?:js)$/i,
-      handler: 'StaleWhileRevalidate',
+      handler: 'NetworkFirst',
       options: {
         cacheName: 'static-js-assets',
         expiration: {
           maxEntries: 32,
           maxAgeSeconds: 24 * 60 * 60 // 24 hours
-        }
+        },
+        networkTimeoutSeconds: 3,
       }
     },
     {
       urlPattern: /\.(?:css|less)$/i,
-      handler: 'StaleWhileRevalidate',
+      handler: 'NetworkFirst',
       options: {
         cacheName: 'static-style-assets',
         expiration: {
           maxEntries: 32,
           maxAgeSeconds: 24 * 60 * 60 // 24 hours
-        }
+        },
+        networkTimeoutSeconds: 3,
       }
     },
     {
